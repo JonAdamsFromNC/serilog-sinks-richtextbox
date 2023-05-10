@@ -15,8 +15,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Text;
-using System.Windows.Threading;
+using System.Threading.Tasks;
 using Serilog.Sinks.RichTextBox.Abstraction;
 
 namespace Serilog.Sinks.RichTextBox.Wpf.Tests.Support
@@ -29,6 +30,16 @@ namespace Serilog.Sinks.RichTextBox.Wpf.Tests.Support
         private readonly StringBuilder _contentBuilder = new StringBuilder();
 
         public string Content => _contentBuilder.ToString();
+
+        public Task WriteAsync(List<string> xamlParagraphTexts)
+        {
+            foreach (var xamlParagraphText in xamlParagraphTexts)
+            {
+                Write(xamlParagraphText);
+            }
+
+            return Task.CompletedTask;
+        }
 
         public void Write(string xamlParagraphText)
         {
@@ -54,16 +65,6 @@ namespace Serilog.Sinks.RichTextBox.Wpf.Tests.Support
                 xamlParagraphText.Substring(prefixLength, xamlParagraphText.Length - prefixLength - suffixLength);
 
             _contentBuilder.Append(inlines);
-        }
-
-        public bool CheckAccess()
-        {
-            return true;
-        }
-
-        public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg)
-        {
-            throw new NotImplementedException();
         }
     }
 }

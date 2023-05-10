@@ -14,17 +14,14 @@
 //
 #endregion
 
-using System;
-using System.Windows.Threading;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Serilog.Sinks.RichTextBox.Abstraction
 {
-    internal interface IRichTextBox
+    public interface IRichTextBox
     {
-        void Write(string xamlParagraphText);
+        Task WriteAsync(List<string> xamlParagraphTexts);
 
-        bool CheckAccess();
-
-        public DispatcherOperation BeginInvoke(DispatcherPriority priority, Delegate method, object arg);
     }
 }
